@@ -1,20 +1,23 @@
 import sys
 from dataclasses import dataclass
+
 import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
 from src.exception import CustomException
 from src.logger import logging
-from src.utils import save_object
 import os
+
+from src.utils import save_object
 
 
 @dataclass
 class DataTransformationConfig:
-    preprocessing_obj_file_path = os.path.join("artifact", "preprocessor.pkl")
+    preprocessor_obj_file_path = os.path.join("artifacts", "proprocessor.pkl")
 
 
 class DataTransformation:
@@ -23,7 +26,8 @@ class DataTransformation:
 
     def get_data_transformer_object(self):
         """
-        This function is responsible for data transformation pipeline
+        This function si responsible for data trnasformation
+
         """
         try:
             numerical_columns = ["writing score", "reading score"]
@@ -50,12 +54,13 @@ class DataTransformation:
                 ]
             )
 
-            logging.info("Numerical and categorical pipelines created successfully")
+            logging.info(f"Categorical columns: {categorical_columns}")
+            logging.info(f"Numerical columns: {numerical_columns}")
 
             preprocessor = ColumnTransformer(
-                transformers=[
+                [
                     ("num_pipeline", num_pipeline, numerical_columns),
-                    ("cat_pipeline", cat_pipeline, categorical_columns),
+                    ("cat_pipelines", cat_pipeline, categorical_columns),
                 ]
             )
 
@@ -65,15 +70,14 @@ class DataTransformation:
             raise CustomException(e, sys)
 
     def initiate_data_transformation(self, train_path, test_path):
-        """
-        Apply preprocessing to train and test data
-        """
+
         try:
-            logging.info("Reading train and test data started")
             train_df = pd.read_csv(train_path)
             test_df = pd.read_csv(test_path)
 
             logging.info("Read train and test data completed")
+
+            logging.info("Obtaining preprocessing object")
 
             preprocessing_obj = self.get_data_transformer_object()
 
@@ -87,7 +91,7 @@ class DataTransformation:
             target_feature_test_df = test_df[target_column_name]
 
             logging.info(
-                "Applying preprocessing object on training and testing dataframe"
+                f"Applying preprocessing object on training dataframe and testing dataframe."
             )
 
             input_feature_train_arr = preprocessing_obj.fit_transform(
@@ -100,34 +104,17 @@ class DataTransformation:
             ]
             test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
 
-            logging.info("Saving preprocessing object")
+            logging.info(f"Saved preprocessing object.")
 
             save_object(
-                file_path=self.data_transformation_config.preprocessing_obj_file_path,
+                file_path=self.data_transformation_config.preprocessor_obj_file_path,
                 obj=preprocessing_obj,
             )
-
-            logging.info("Data transformation completed successfully")
 
             return (
                 train_arr,
                 test_arr,
-                self.data_transformation_config.preprocessing_obj_file_path,
+                self.data_transformation_config.preprocessor_obj_file_path,
             )
-
         except Exception as e:
             raise CustomException(e, sys)
-
-
-if __name__ == "__main__":
-    obj = DataTransformation()
-    train_data = "artifact/train.csv"
-    test_data = "artifact/test.csv"
-
-    train_arr, test_arr, preprocessor_path = obj.initiate_data_transformation(
-        train_data, test_data
-    )
-    print("✅ Data Transformation completed successfully!")
-    print(f"📁 Preprocessor saved at: {preprocessor_path}")
-    print(f"Training array shape: {train_arr.shape}")
-    print(f"Testing array shape: {test_arr.shape}")

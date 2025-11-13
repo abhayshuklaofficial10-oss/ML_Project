@@ -62,5 +62,8 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 python app.py
+<img width="1920" height="1080" alt="Screenshot (239)" src="https://github.com/user-attachments/assets/c2458e2f-8cdf-456d-ae58-011a042252d9" />
+
+
 
 

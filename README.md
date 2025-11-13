@@ -43,6 +43,13 @@ An interactive **Flask web application** that predicts a student's **math score*
 
 
 ---
+## 🖼️ Screenshot
+
+<p align="center">
+  <img src="https://github.com/abhayshuklaofficial10-oss/ML_Project/blob/main/Screenshot%20(239).png?raw=true" alt="Student Math Score Predictor UI" width="800">
+</p>
+
+> 🧠 Beautiful one-page, scroll-free Tailwind UI.
 
 ## ⚙️ Installation and Run Instructions
 
@@ -63,12 +70,11 @@ pip install -r requirements.txt
 
 python app.py
 
+```bash
 
-## 🖼️ Screenshot
 
-<p align="center">
-  <img src="https://github.com/abhayshuklaofficial10-oss/ML_Project/blob/main/Screenshot%20(239).png?raw=true" alt="Student Math Score Predictor UI" width="800">
-</p>
+
+
 
 
 

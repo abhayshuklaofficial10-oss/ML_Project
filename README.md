@@ -64,8 +64,12 @@ pip install -r requirements.txt
 python app.py
 
 
-🖼️ Screenshot
-<img width="100%" alt="Student Math Score Predictor UI" src="https://github.com/user-attachments/assets/c2458e2f-8cdf-456d-ae58-011a042252d9" />
+## 🖼️ Screenshot
+
+<p align="center">
+  <img src="https://github.com/abhayshuklaofficial10-oss/ML_Project/blob/main/Screenshot%20(239).png?raw=true" alt="Student Math Score Predictor UI" width="800">
+</p>
+
 
 
 
